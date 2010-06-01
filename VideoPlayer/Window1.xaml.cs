@@ -20,9 +20,9 @@ namespace VideoPlayer
     /// </summary>
     public partial class Window1 : Window
     {
-        int Volume { get; set; }
-        bool _isPlaying;
-        bool IsPlaying 
+        private int Volume { get; set; }
+        private bool _isPlaying;
+        private bool IsPlaying 
         { 
             get {return _isPlaying;}
             set 
