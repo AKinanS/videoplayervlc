@@ -74,7 +74,7 @@ namespace VideoPlayer
                 {
                     axVLC.playlist.togglePause();
                     IsPlaying = false;
-                }
+                } 
             }
 
         }
