@@ -1,0 +1,16 @@
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\Interop.AXVLC.dll
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\VideoPlayer.csproj.ResolveComReference.cache
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\bin\x86\Debug\VideoPlayer.exe
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\bin\x86\Debug\VideoPlayer.pdb
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\bin\x86\Debug\AxInterop.AXVLC.dll
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\bin\x86\Debug\Interop.AXVLC.dll
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\Window1.baml
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\Window1.g.cs
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\App.g.cs
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\VideoPlayer_MarkupCompile.cache
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\VideoPlayer.g.resources
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\VideoPlayer.Properties.Resources.resources
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\VideoPlayer.csproj.GenerateResource.Cache
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\VideoPlayer.exe
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\VideoPlayer.pdb

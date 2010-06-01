@@ -1,0 +1,12 @@
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\bin\x86\Debug\VLCAxLib.dll
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\bin\x86\Debug\VLCAxLib.pdb
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\bin\x86\Debug\Interop.AXVLC.dll
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\bin\x86\Debug\AxInterop.AXVLC.dll
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\obj\x86\Debug\Interop.AXVLC.dll
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\obj\x86\Debug\AxInterop.AXVLC.dll
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\obj\x86\Debug\VLCAxLib.csproj.ResolveComReference.cache
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\obj\x86\Debug\VLCAxLib.VLCcontrol.resources
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\obj\x86\Debug\VLCAxLib.csproj.GenerateResource.Cache
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\obj\x86\Debug\VLCAxLib.dll
+D:\MUNI\programování .net\VideoPlayer\VLCAxLib\obj\x86\Debug\VLCAxLib.pdb

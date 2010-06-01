@@ -19,30 +19,91 @@ namespace VideoPlayer
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class Window1 : Window
-    { 
+    {
+        int Volume { get; set; }
+        bool _isPlaying;
+        bool IsPlaying 
+        { 
+            get {return _isPlaying;}
+            set 
+            {
+                _isPlaying = value;
+                if (value == false)
+                {
+                    play.Content = "Play";
+                }
+                else
+                {
+                    play.Content = "Pause";
+                }
+            } 
+        }
+        bool IsOpened { get; set; }
+
         public Window1()
         {
             InitializeComponent();
+            axVLC.CreateControl();
             
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            axVLC.Visible = true;
+            Volume = 50;
+            IsOpened = false;
+            IsPlaying = false;
            
             
         }
 
         private void play_Click(object sender, RoutedEventArgs e)
         {
+            if (IsOpened)
+            {
+                if (!IsPlaying)
+                {
 
 
-            axVLC.CreateControl();
-            axVLC.playlist.clear();
-            int id = axVLC.playlist.add(@"", "track1", new String[] { });
+                    axVLC.Volume = Volume;
+                    axVLC.playlist.togglePause();
+                    IsPlaying = true;
+
+                }
+                else
+                {
+                    axVLC.playlist.togglePause();
+                    IsPlaying = false;
+                }
+            }
+
+        }
+
+        private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Volume = Convert.ToInt32(e.NewValue * 10);
+            if (IsOpened) axVLC.Volume = Volume;
+        }
+
+        private void stop_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsOpened)
+            {
+                axVLC.playlist.stop();
+                IsPlaying = false;
+                IsOpened = false;
+            }
+        }
+
+        private void open_Click(object sender, RoutedEventArgs e)
+        {
+            int id = axVLC.playlist.add(@"C:/test.avi", "track1", new String[] { });
+
             axVLC.playlist.playItem(id);
 
-
+            
+            IsPlaying = true;
+            IsOpened = true;
 
         }
     }
