@@ -39,7 +39,7 @@ namespace VideoPlayer
 
             axVLC.CreateControl();
             axVLC.playlist.clear();
-            int id = axVLC.playlist.add(@"C:\Download\Dexter.S02E10.HDTV.XviD-NoTV.avi", "track1", new String[] { });
+            int id = axVLC.playlist.add(@"", "track1", new String[] { });
             axVLC.playlist.playItem(id);
 
 
