@@ -9,7 +9,7 @@
     <Grid Name="grid1">
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
-        <WindowsFormsHost Name="wfh" Margin="0,0,0,23" Background="DarkSalmon" KeyDown="wfh_KeyDown">
+        <WindowsFormsHost Name="wfh" Margin="0,0,0,47" Background="DarkSalmon" KeyDown="wfh_KeyDown">
             <ax:AxVLCPlugin2 x:Name="axVLC"/>
         </WindowsFormsHost>
         <Button Height="23" HorizontalAlignment="Left" Name="play" VerticalAlignment="Bottom" Width="75" Click="play_Click">Play</Button>
@@ -17,6 +17,8 @@
         <Button Height="23" HorizontalAlignment="Left" Margin="154,0,0,0"   Name="open" VerticalAlignment="Bottom" Click="open_Click"  Width="75">Open</Button>
         <Button Height="23" HorizontalAlignment="Right" Margin="0,0,231,0" Name="fullscreen" VerticalAlignment="Bottom" Click="fullscreen_Click" Width="64">Fullscreen</Button>
 
+		<Slider Height="23" HorizontalAlignment="Stretch" Name="progressSlider" VerticalAlignment="Bottom" Margin="0,0,0,23"></Slider>
+		
         <Slider Height="23" HorizontalAlignment="Right" Name="volumeSlider" VerticalAlignment="Bottom" Width="100" Value="5" ValueChanged="volumeSlider_ValueChanged" />
         <Label Height="23" Margin="0,0,99,0" Name="label1" VerticalAlignment="Bottom" FlowDirection="RightToLeft" HorizontalAlignment="Right" Width="54">Volume</Label>
         
