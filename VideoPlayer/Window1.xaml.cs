@@ -164,6 +164,7 @@ namespace VideoPlayer {
 					axVLC.playlist.stop();
 					IsPlaying = false;
 					IsStopped = true;
+                    progressSlider.Value = 0;
 				}
 			}
 		}
@@ -219,7 +220,7 @@ namespace VideoPlayer {
 
         private void progressSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (IsOpened)
+            if (IsOpened && !IsStopped)
             {
                 axVLC.input.Position = e.NewValue / 10;
             }
