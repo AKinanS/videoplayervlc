@@ -84,6 +84,7 @@ namespace VideoPlayer {
 			IsOpened = false;
 			IsPlaying = false;
 			IsStopped = true;
+            wfh.Focus();
 		}
 
 		private void play_Click(object sender, RoutedEventArgs e) {
@@ -179,6 +180,7 @@ namespace VideoPlayer {
             if (IsOpened)
             {
                 axVLC.video.fullscreen = true;
+                wfh.Focus();
             }
         }
 
@@ -199,11 +201,11 @@ namespace VideoPlayer {
             }
             else if (e.Key == Key.C)
             {
-                axVLC.input.rate *= 1.1;
+                axVLC.input.rate += 0.1;
             }
             else if (e.Key == Key.X)
             {
-                axVLC.input.rate /= 1.1;
+                axVLC.input.rate -= 0.1;
             }
             else if (e.Key == Key.Left)
             {
