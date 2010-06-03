@@ -84,6 +84,7 @@ namespace VideoPlayer {
 			openFileDialog.Title = "Select a Video File";
 			Nullable<bool> result = openFileDialog.ShowDialog();
 			if (result == true) {
+                progressSlider.Value = 0;
 				stopCurrentVideo();
 				axVLC.playlist.clear();
 				//Thread.Sleep(5000);
@@ -147,6 +148,14 @@ namespace VideoPlayer {
             else if (e.Key == Key.Right)
             {
                 axVLC.input.Time += 6000;
+            }
+        }
+
+        private void progressSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (IsOpened)
+            {
+                axVLC.input.Position = e.NewValue / 10;
             }
         }
 	}

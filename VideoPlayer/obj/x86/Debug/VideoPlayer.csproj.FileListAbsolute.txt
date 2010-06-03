@@ -30,3 +30,4 @@ c:\Users\SirGlorg\Documents\Visual Studio 2008\Projects\FinalProject\VideoPlayer
 c:\Users\SirGlorg\Documents\Visual Studio 2008\Projects\FinalProject\VideoPlayer\obj\x86\Debug\VideoPlayer.g.resources
 c:\Users\SirGlorg\Documents\Visual Studio 2008\Projects\FinalProject\VideoPlayer\obj\x86\Debug\VideoPlayer.Properties.Resources.resources
 c:\Users\SirGlorg\Documents\Visual Studio 2008\Projects\FinalProject\VideoPlayer\obj\x86\Debug\VideoPlayer.csproj.GenerateResource.Cache
+D:\MUNI\programování .net\VideoPlayer\VideoPlayer\obj\x86\Debug\VideoPlayer_Content.g.cs
