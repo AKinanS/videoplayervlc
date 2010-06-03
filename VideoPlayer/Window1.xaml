@@ -6,7 +6,14 @@
     Title="Video Player" Height="374" Width="548" Loaded="Window_Loaded"
         >
 
-    <Grid Name="grid1">
+	<Window.Background>
+		<LinearGradientBrush EndPoint="0.363,0.191" StartPoint="0.948,0.913">
+			<GradientStop Color="#FFCFEEFF" Offset="0"/>
+			<GradientStop Color="#FF353535" Offset="1"/>
+		</LinearGradientBrush>
+	</Window.Background>
+	
+	<Grid Name="grid1">
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
         <WindowsFormsHost Name="wfh" Margin="0,0,0,47" Background="DarkSalmon" KeyDown="wfh_KeyDown">
