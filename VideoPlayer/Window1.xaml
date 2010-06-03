@@ -16,19 +16,34 @@
 	<Grid Name="grid1">
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
-        
-        <WindowsFormsHost Name="wfh" Margin="0,0,0,47" KeyDown="wfh_KeyDown">
-            <ax:AxVLCPlugin2 x:Name="axVLC" />
+        <WindowsFormsHost Name="wfh" Margin="0,0,0,52" Background="DarkSalmon" KeyDown="wfh_KeyDown">
+            <ax:AxVLCPlugin2 x:Name="axVLC"/>
         </WindowsFormsHost>
-        <Button Focusable="False" Height="23" HorizontalAlignment="Left" Name="play" VerticalAlignment="Bottom" Width="75" Click="play_Click">Play</Button>
-        <Button Focusable="False" Height="23" HorizontalAlignment="Left" Margin="77,0,0,0"  Name="stop" VerticalAlignment="Bottom" Width="75" Click="stop_Click">Stop</Button>
-        <Button Focusable="False" Height="23" HorizontalAlignment="Left" Margin="154,0,0,0" Name="open" VerticalAlignment="Bottom" Click="open_Click"  Width="75">Open</Button>
-        <Button Focusable="False" Height="23" Margin="231,0,0,0" Name="fullscreen" VerticalAlignment="Bottom" Click="fullscreen_Click" HorizontalAlignment="Left" Width="75">Fullscreen</Button>
+        <Button Name="play" Height="26" Width="28" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,2" Click="play_Click">
+			<Button.Background>
+				<ImageBrush ImageSource="Images/Button_Play.png" />
+			</Button.Background>
+		</Button>
+        <Button Name="stop" Height="26" Width="28" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,40,2" Click="stop_Click">
+			<Button.Background>
+				<ImageBrush ImageSource="Images/Button_Stop.png" />
+			</Button.Background>
+		</Button>
+		<Button Name="open" Height="26" Width="28" HorizontalAlignment="Center" Margin="0,0,-28,2" VerticalAlignment="Bottom" Click="open_Click" >
+			<Button.Background>
+				<ImageBrush ImageSource="Images/Button_Open.png" />
+			</Button.Background>
+		</Button>
+        <Button Name="fullscreen" Height="26" Width="20" HorizontalAlignment="Center" Margin="0,0,-80,2" VerticalAlignment="Bottom" Click="fullscreen_Click">
+			<Button.Background>
+				<ImageBrush ImageSource="Images/Button_Fullscreen.png" />
+			</Button.Background>
+		</Button>
 
-		<Slider Focusable="False" Height="23" HorizontalAlignment="Stretch" Name="progressSlider" VerticalAlignment="Bottom" Margin="0,0,0,23" ValueChanged="progressSlider_ValueChanged"></Slider>
+		<Slider Name="progressSlider" Height="23" HorizontalAlignment="Stretch" Margin="0,0,0,28" VerticalAlignment="Bottom" ValueChanged="progressSlider_ValueChanged"></Slider>
 		
-        <Slider Focusable="False" Height="23" HorizontalAlignment="Right" Name="volumeSlider" VerticalAlignment="Bottom" Width="100" Value="5" ValueChanged="volumeSlider_ValueChanged" />
-        <Label Focusable="False" Height="23" Margin="0,0,99,0" Name="label1" VerticalAlignment="Bottom" FlowDirection="RightToLeft" HorizontalAlignment="Right" Width="54">Volume</Label>
+        <Slider Name="volumeSlider" Height="23" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Value="5" ValueChanged="volumeSlider_ValueChanged" />
+        <Label Name="label1" Height="23" Width="54" HorizontalAlignment="Right" Margin="0,0,99,5" VerticalAlignment="Bottom" FlowDirection="RightToLeft" >Volume</Label>
         
     </Grid>
 </Window>
