@@ -12,38 +12,29 @@
 			<GradientStop Color="#FF353535" Offset="1"/>
 		</LinearGradientBrush>
 	</Window.Background>
-	
-	<Grid Name="grid1">
-        <Grid.ColumnDefinitions>
-        </Grid.ColumnDefinitions>
-        <WindowsFormsHost Name="wfh" Margin="0,0,0,52" Background="DarkSalmon" KeyDown="wfh_KeyDown">
-            <ax:AxVLCPlugin2 x:Name="axVLC"/>
-        </WindowsFormsHost>
-        <Button Name="play" Height="26" Width="28" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,2" Click="play_Click">
-			<Button.Background>
-				<ImageBrush ImageSource="Images/Button_Play.png" />
-			</Button.Background>
-		</Button>
-        <Button Name="stop" Height="26" Width="28" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,40,2" Click="stop_Click">
-			<Button.Background>
-				<ImageBrush ImageSource="Images/Button_Stop.png" />
-			</Button.Background>
-		</Button>
-		<Button Name="open" Height="26" Width="28" HorizontalAlignment="Center" Margin="0,0,-28,2" VerticalAlignment="Bottom" Click="open_Click" >
-			<Button.Background>
-				<ImageBrush ImageSource="Images/Button_Open.png" />
-			</Button.Background>
-		</Button>
-        <Button Name="fullscreen" Height="26" Width="20" HorizontalAlignment="Center" Margin="0,0,-80,2" VerticalAlignment="Bottom" Click="fullscreen_Click">
-			<Button.Background>
-				<ImageBrush ImageSource="Images/Button_Fullscreen.png" />
-			</Button.Background>
-		</Button>
 
-		<Slider Name="progressSlider" Height="23" HorizontalAlignment="Stretch" Margin="0,0,0,28" VerticalAlignment="Bottom" ValueChanged="progressSlider_ValueChanged"></Slider>
-		
-        <Slider Name="volumeSlider" Height="23" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Value="5" ValueChanged="volumeSlider_ValueChanged" />
-        <Label Name="label1" Height="23" Width="54" HorizontalAlignment="Right" Margin="0,0,99,5" VerticalAlignment="Bottom" FlowDirection="RightToLeft" >Volume</Label>
-        
-    </Grid>
+	<Grid Name="grid1">
+		<Grid.Resources>
+			<ImageBrush x:Key="imageButtonStop" ImageSource="Images/Button_Stop.png" />
+			<ImageBrush x:Key="imageButtonPlay" ImageSource="Images/Button_Play.png" />
+			<ImageBrush x:Key="imageButtonPause" ImageSource="Images/Button_Pause.png" />
+			<ImageBrush x:Key="imageButtonOpen" ImageSource="Images/Button_Open.png" />
+			<ImageBrush x:Key="imageButtonFullscreen" ImageSource="Images/Button_Fullscreen.png" />
+		</Grid.Resources>
+
+		<Grid.ColumnDefinitions>
+		</Grid.ColumnDefinitions>
+		<WindowsFormsHost Name="wfh" Margin="0,0,0,52" Background="DarkSalmon" KeyDown="wfh_KeyDown">
+			<ax:AxVLCPlugin2 x:Name="axVLC"/>
+		</WindowsFormsHost>
+		<Button Name="play" Height="26" Width="28" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,2" Click="play_Click" Focusable="False" Background="{DynamicResource imageButtonPlay}"></Button>
+		<Button Name="stop" Height="26" Width="28" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,40,2" Click="stop_Click" Focusable="False" Background="{StaticResource imageButtonStop}"></Button>
+		<Button Name="open" Height="26" Width="28" HorizontalAlignment="Center" Margin="0,0,-28,2" VerticalAlignment="Bottom" Click="open_Click" Focusable="False" Background="{StaticResource imageButtonOpen}"></Button>
+		<Button Name="fullscreen" Height="26" Width="20" HorizontalAlignment="Center" Margin="0,0,-80,2" VerticalAlignment="Bottom" Click="fullscreen_Click" Focusable="False" Background="{StaticResource imageButtonFullscreen}"></Button>
+
+		<Slider Name="progressSlider" Height="23" HorizontalAlignment="Stretch" Margin="0,0,0,28" VerticalAlignment="Bottom" ValueChanged="progressSlider_ValueChanged" Focusable="False"></Slider>
+		<Slider Name="volumeSlider" Height="23" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Value="5" ValueChanged="volumeSlider_ValueChanged" Focusable="False"/>
+		<Label Name="label1" Height="23" Width="54" HorizontalAlignment="Right" Margin="0,0,99,5" VerticalAlignment="Bottom" FlowDirection="RightToLeft" Focusable="False">Volume</Label>
+
+	</Grid>
 </Window>
