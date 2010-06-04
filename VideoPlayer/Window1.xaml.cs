@@ -76,9 +76,18 @@ namespace VideoPlayer {
 		/// tells whether the video is stopped at the time - ie. if true,
 		/// than no video is currently loaded and therefore can't be manipulated with.
 		/// </summary>
+        /// 
+        private bool _isStopped;
 		public bool IsStopped {
-			get;
-			set;
+			get
+            {                
+                return _isStopped;
+            }
+            set
+            {
+                progressSlider.IsEnabled = !value;
+                _isStopped = value;
+            }
 		}
 
 		/// <summary>
@@ -114,8 +123,7 @@ namespace VideoPlayer {
 
 		private void stop_Click(object sender, RoutedEventArgs e) {
 			stopCurrentVideo();
-
-		}
+        }
 
 		private void open_Click(object sender, RoutedEventArgs e) {
 			openVideo();
@@ -165,7 +173,7 @@ namespace VideoPlayer {
 		private void openVideo() {
 			int id = -1;
 			OpenFileDialog openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Video Files|*.avi;*.mpg;*.mpeg";
+			openFileDialog.Filter = "Video Files|*.avi;*.mpg;*.mpeg;*.divx;*.mkv;*.mov;*.wmv|All files|*.*";
 			openFileDialog.Title = "Select a Video File";
 			Nullable<bool> result = openFileDialog.ShowDialog();
 			if (result == true) {
@@ -223,11 +231,13 @@ namespace VideoPlayer {
 		}
 
 		private void toggleFullscreen() {
-			if (IsPlaying)
-				axVLC.video.fullscreen = !axVLC.video.fullscreen;
+            if (IsPlaying)
+            {
+                axVLC.video.toggleFullscreen();
+            }
 		}
 
-			#region print message handling
+		#region print message handling
 		/// <summary>
 		/// prints the message in the video screen and sets the timer to erase it
 		/// </summary>
