@@ -3,8 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" 
     xmlns:ax="clr-namespace:AxAXVLC;assembly=AxInterop.AXVLC" 
-    Title="Video Player" Height="374" Width="548" Loaded="Window_Loaded"
-        >
+    Title="Video Player" Height="374" Width="548" Loaded="Window_Loaded" MinHeight="200" MinWidth="420">
 
 	<Window.Background>
 		<LinearGradientBrush EndPoint="0.363,0.191" StartPoint="0.948,0.913">

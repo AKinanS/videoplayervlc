@@ -202,6 +202,7 @@ namespace VideoPlayer {
 					IsPlaying = false;
 					IsStopped = true;
 					progressSlider.Value = 0;
+					printMessage("Video stopped");
 				}
 			}
 		}
@@ -230,18 +231,20 @@ namespace VideoPlayer {
 		/// <summary>
 		/// prints the message in the video screen and sets the timer to erase it
 		/// </summary>
-		void printMessage(string message) {
-			if (MessageEraser != null) {
-				MessageEraser.CancelAsync();
+		public void printMessage(string message) {
+			if (message != null) {
+				if (MessageEraser != null) {
+					MessageEraser.CancelAsync();
+				}
+				labelPrintMessage.Content = message;
+				// the label Content is not empty, therefore the timer to erase the message needs to be set
+				BackgroundWorker messageEraser = new BackgroundWorker();
+				messageEraser.DoWork += new DoWorkEventHandler(messageEraser_DoWork);
+				messageEraser.RunWorkerCompleted += new RunWorkerCompletedEventHandler(messageEraser_RunWorkerCompleted);
+				messageEraser.WorkerSupportsCancellation = true;
+				MessageEraser = messageEraser;
+				MessageEraser.RunWorkerAsync();
 			}
-			labelPrintMessage.Content = message;
-			// the label Content is not empty, therefore the timer to erase the message needs to be set
-			BackgroundWorker messageEraser = new BackgroundWorker();
-			messageEraser.DoWork += new DoWorkEventHandler(messageEraser_DoWork);
-			messageEraser.RunWorkerCompleted += new RunWorkerCompletedEventHandler(messageEraser_RunWorkerCompleted);
-			messageEraser.WorkerSupportsCancellation = true;
-			MessageEraser = messageEraser;
-			MessageEraser.RunWorkerAsync();
 		}
 
 		/// <summary>
@@ -249,7 +252,7 @@ namespace VideoPlayer {
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		void messageEraser_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+		private void messageEraser_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
 			if (!e.Cancelled) {
 				labelPrintMessage.Content = "";
 			}
@@ -260,7 +263,7 @@ namespace VideoPlayer {
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		void messageEraser_DoWork(object sender, DoWorkEventArgs e) {
+		private void messageEraser_DoWork(object sender, DoWorkEventArgs e) {
 			BackgroundWorker backgroundWorker = sender as BackgroundWorker;
 			Thread.Sleep(3000);
 			if (backgroundWorker.CancellationPending) {
