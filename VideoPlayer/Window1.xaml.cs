@@ -26,13 +26,36 @@ namespace VideoPlayer {
 			InitializeComponent();
 			axVLC.CreateControl();
 			labelPrintMessage.Content = "";
+			BackgroundWorker videoGuard = new BackgroundWorker();
+			videoGuard.WorkerReportsProgress = true;
+			videoGuard.DoWork += new DoWorkEventHandler(videoGuard_DoWork);
+			videoGuard.ProgressChanged += new ProgressChangedEventHandler(videoGuard_ProgressChanged);
+			videoGuard.RunWorkerAsync();
 		}
 
 		#region properties
 		/// <summary>
 		/// timer that erases the message printed in the video screen
 		/// </summary>
-		public BackgroundWorker MessageEraser {
+		private BackgroundWorker MessageEraser {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// watches the video every few miliseconds and adjusts the UI
+		/// </summary>
+		public BackgroundWorker VideoGuard {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// tells whether the change of the progressSlider is caused by the program - ie. inner functionality
+		/// caused the slider movement. Handles the loop between indicating a video progress and moving the
+		/// actual position of the played video.
+		/// </summary>
+		public bool ProgressInnerReport {
 			get;
 			set;
 		}
@@ -76,18 +99,16 @@ namespace VideoPlayer {
 		/// tells whether the video is stopped at the time - ie. if true,
 		/// than no video is currently loaded and therefore can't be manipulated with.
 		/// </summary>
-        /// 
-        private bool _isStopped;
+		/// 
+		private bool _isStopped;
 		public bool IsStopped {
-			get
-            {                
-                return _isStopped;
-            }
-            set
-            {
-                progressSlider.IsEnabled = !value;
-                _isStopped = value;
-            }
+			get {
+				return _isStopped;
+			}
+			set {
+				progressSlider.IsEnabled = !value;
+				_isStopped = value;
+			}
 		}
 
 		/// <summary>
@@ -101,6 +122,11 @@ namespace VideoPlayer {
 		#endregion
 
 		#region wpf component events
+		/// <summary>
+		/// initializes basic values
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			axVLC.Visible = true;
 			Volume = 50;
@@ -110,7 +136,13 @@ namespace VideoPlayer {
 			wfh.Focus();
 		}
 
-
+		/// <summary>
+		/// plays currently opened video from the library on the button click
+		/// ,calls open video dialog if no video is opened or toggles between
+		/// pause and play mode if the video is already being played.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void play_Click(object sender, RoutedEventArgs e) {
 			if (IsOpened) { // there is some video in the playlist
 				if (IsStopped) {	// the video is not running - play from beginning
@@ -123,30 +155,64 @@ namespace VideoPlayer {
 			}
 		}
 
+		/// <summary>
+		/// stops current video if opened and playing on the button click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void stop_Click(object sender, RoutedEventArgs e) {
 			stopCurrentVideo();
-        }
+		}
 
+		/// <summary>
+		/// adds new video via open dialog on the button click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void open_Click(object sender, RoutedEventArgs e) {
 			openVideo();
 		}
 
+		/// <summary>
+		/// switches into the fullscreen on the button click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void fullscreen_Click(object sender, RoutedEventArgs e) {
 			toggleFullscreen();
 		}
 
+		/// <summary>
+		/// sets the current video volume according to the new position of volumeSlider
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
 			Volume = Convert.ToInt32(e.NewValue * 10);
 			if (IsOpened)
 				axVLC.Volume = Volume;
 		}
 
+		/// <summary>
+		/// moves the video forward & backward according to the new position of the slider
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void progressSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
 			if (IsOpened && !IsStopped) {
-				axVLC.input.Position = e.NewValue / 10;
+				if (!ProgressInnerReport) { // slider wasn't moved by inner program functionality
+					axVLC.input.Position = e.NewValue / 10;
+				} else {
+					ProgressInnerReport = false;
+				}
 			}
 		}
 
+		/// <summary>
+		/// key press handler - defines functionality of key commands
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void wfh_KeyDown(object sender, KeyEventArgs e) {
 			if (e.Key == Key.Enter) {
 				toggleFullscreen();
@@ -217,6 +283,9 @@ namespace VideoPlayer {
 			}
 		}
 
+		/// <summary>
+		/// toggles between the pause or play state of the current video if opened & playing
+		/// </summary>
 		private void togglePause() {
 			if (!IsStopped) {
 				if (IsPlaying) {
@@ -232,14 +301,16 @@ namespace VideoPlayer {
 			}
 		}
 
+		/// <summary>
+		/// toggles between fullscreen & window mode
+		/// </summary>
 		private void toggleFullscreen() {
-            if (IsPlaying)
-            {
-                axVLC.video.toggleFullscreen();
-            }
+			if (IsPlaying) {
+				axVLC.video.toggleFullscreen();
+			}
 		}
 
-		#region print message handling
+			#region print message handling
 		/// <summary>
 		/// prints the message in the video screen and sets the timer to erase it
 		/// </summary>
@@ -280,6 +351,27 @@ namespace VideoPlayer {
 			Thread.Sleep(3000);
 			if (backgroundWorker.CancellationPending) {
 				e.Cancel = true;
+			}
+		}
+		#endregion
+
+			#region video guard events
+		void videoGuard_ProgressChanged(object sender, ProgressChangedEventArgs e) {
+			if (IsOpened) {
+				if (progressSlider.Value > 0 && !axVLC.playlist.isPlaying && IsPlaying) { //handles the end of a video
+					stopCurrentVideo();
+				} else {
+					ProgressInnerReport = true;
+					progressSlider.Value = axVLC.input.Position * 10;
+				}
+			}
+		}
+
+		void videoGuard_DoWork(object sender, DoWorkEventArgs e) {
+			BackgroundWorker mySender = sender as BackgroundWorker;
+			while (true) {
+				mySender.ReportProgress(1);
+				Thread.Sleep(500);
 			}
 		}
 			#endregion
