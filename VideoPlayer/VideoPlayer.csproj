@@ -143,6 +143,7 @@
     <Resource Include="Images\Button_Back.png" />
     <Resource Include="Images\Button_Open.png" />
     <Resource Include="Images\Button_Fullscreen.png" />
+    <Resource Include="Images\Sound.png" />
     <Content Include="Interop.AXVLC.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

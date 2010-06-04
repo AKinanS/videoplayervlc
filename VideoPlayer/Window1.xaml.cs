@@ -14,12 +14,28 @@ using System.Windows.Shapes;
 using AXVLC;
 using Microsoft.Win32;
 using System.Threading;
+using System.ComponentModel;
 
 namespace VideoPlayer {
 	/// <summary>
 	/// Interaction logic for Window1.xaml
 	/// </summary>
 	public partial class Window1 : Window {
+
+		public Window1() {
+			InitializeComponent();
+			axVLC.CreateControl();
+			labelPrintMessage.Content = "";
+		}
+
+		#region properties
+		/// <summary>
+		/// timer that erases the message printed in the video screen
+		/// </summary>
+		public BackgroundWorker MessageEraser {
+			get;
+			set;
+		}
 
 		/// <summary>
 		/// actual video volume
@@ -72,12 +88,9 @@ namespace VideoPlayer {
 			get;
 			set;
 		}
+		#endregion
 
-		public Window1() {
-			InitializeComponent();
-			axVLC.CreateControl();
-		}
-
+		#region wpf component events
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			axVLC.Visible = true;
 			Volume = 50;
@@ -92,25 +105,11 @@ namespace VideoPlayer {
 				if (IsStopped) {	// the video is not running - play from beginning
 					playVideo(LastPlayedID);
 				} else {
-					if (IsPlaying) {	//the video is running - toggle between pause & play
-						axVLC.playlist.togglePause();	//triggers pause
-						IsPlaying = false;
-					} else {
-						axVLC.Volume = Volume;
-						axVLC.playlist.togglePause();	//triggers play
-						IsPlaying = true;
-					}
+					togglePause();	//the video is running - toggle between pause & play
 				}
 			} else {
 				openVideo();
 			}
-
-		}
-
-		private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-			Volume = Convert.ToInt32(e.NewValue * 10);
-			if (IsOpened)
-				axVLC.Volume = Volume;
 		}
 
 		private void stop_Click(object sender, RoutedEventArgs e) {
@@ -122,6 +121,43 @@ namespace VideoPlayer {
 			openVideo();
 		}
 
+		private void fullscreen_Click(object sender, RoutedEventArgs e) {
+			toggleFullscreen();
+		}
+
+		private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+			Volume = Convert.ToInt32(e.NewValue * 10);
+			if (IsOpened)
+				axVLC.Volume = Volume;
+		}
+
+		private void progressSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+			if (IsOpened && !IsStopped) {
+				axVLC.input.Position = e.NewValue / 10;
+			}
+		}
+
+		private void wfh_KeyDown(object sender, KeyEventArgs e) {
+			if (e.Key == Key.Enter) {
+				toggleFullscreen();
+			} else if (e.Key == Key.Space) {
+				togglePause();
+			} else if (e.Key == Key.M) {
+				axVLC.audio.mute = !axVLC.audio.mute;
+			} else if (e.Key == Key.C) {
+				axVLC.input.rate += 0.1;
+			} else if (e.Key == Key.X) {
+				axVLC.input.rate -= 0.1;
+			} else if (e.Key == Key.Left) {
+				axVLC.input.Time -= 6000;
+			} else if (e.Key == Key.Right) {
+				axVLC.input.Time += 6000;
+			}
+		}
+
+		#endregion
+
+		#region support methods
 		/// <summary>
 		/// opens the video via openFileDialog and adds it into the library
 		/// </summary>
@@ -171,42 +207,69 @@ namespace VideoPlayer {
 		}
 
 		private void togglePause() {
-			axVLC.Volume = Volume;
-			axVLC.playlist.togglePause();
-			IsPlaying = true;
-		}
-
-		private void fullscreen_Click(object sender, RoutedEventArgs e) {
-			if (IsOpened) {
-				axVLC.video.fullscreen = true;
-				wfh.Focus();
+			if (!IsStopped) {
+				if (IsPlaying) {
+					axVLC.playlist.togglePause();	//triggers pause
+					IsPlaying = false;
+					printMessage("Video paused.");
+				} else {
+					axVLC.Volume = Volume;
+					axVLC.playlist.togglePause();	//triggers play
+					IsPlaying = true;
+					printMessage("Continue playing...");
+				}
 			}
 		}
 
+		private void toggleFullscreen() {
+			if (IsPlaying)
+				axVLC.video.fullscreen = !axVLC.video.fullscreen;
+		}
 
-		private void wfh_KeyDown(object sender, KeyEventArgs e) {
-			if (e.Key == Key.Enter) {
-				if (IsOpened)
-					axVLC.video.fullscreen = !axVLC.video.fullscreen;
-			} else if (e.Key == Key.Space) {
-				togglePause();
-			} else if (e.Key == Key.M) {
-				axVLC.audio.mute = !axVLC.audio.mute;
-			} else if (e.Key == Key.C) {
-				axVLC.input.rate += 0.1;
-			} else if (e.Key == Key.X) {
-				axVLC.input.rate -= 0.1;
-			} else if (e.Key == Key.Left) {
-				axVLC.input.Time -= 6000;
-			} else if (e.Key == Key.Right) {
-				axVLC.input.Time += 6000;
+			#region print message handling
+		/// <summary>
+		/// prints the message in the video screen and sets the timer to erase it
+		/// </summary>
+		void printMessage(string message) {
+			if (MessageEraser != null) {
+				MessageEraser.CancelAsync();
+			}
+			labelPrintMessage.Content = message;
+			// the label Content is not empty, therefore the timer to erase the message needs to be set
+			BackgroundWorker messageEraser = new BackgroundWorker();
+			messageEraser.DoWork += new DoWorkEventHandler(messageEraser_DoWork);
+			messageEraser.RunWorkerCompleted += new RunWorkerCompletedEventHandler(messageEraser_RunWorkerCompleted);
+			messageEraser.WorkerSupportsCancellation = true;
+			MessageEraser = messageEraser;
+			MessageEraser.RunWorkerAsync();
+		}
+
+		/// <summary>
+		/// erases the Content of the message covering the video screen
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void messageEraser_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+			if (!e.Cancelled) {
+				labelPrintMessage.Content = "";
 			}
 		}
 
-		private void progressSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-			if (IsOpened && !IsStopped) {
-				axVLC.input.Position = e.NewValue / 10;
+		/// <summary>
+		/// waits 3 seconds and then triggers RunWorkerCompleted section (if cancelation wasn't pending)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void messageEraser_DoWork(object sender, DoWorkEventArgs e) {
+			BackgroundWorker backgroundWorker = sender as BackgroundWorker;
+			Thread.Sleep(3000);
+			if (backgroundWorker.CancellationPending) {
+				e.Cancel = true;
 			}
 		}
+			#endregion
+
+		#endregion
+
 	}
 }
