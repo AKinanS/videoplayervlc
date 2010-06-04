@@ -97,6 +97,7 @@ namespace VideoPlayer {
 			get;
 			set;
 		}
+
 		#endregion
 
 		#region wpf component events
@@ -108,6 +109,7 @@ namespace VideoPlayer {
 			IsStopped = true;
 			wfh.Focus();
 		}
+
 
 		private void play_Click(object sender, RoutedEventArgs e) {
 			if (IsOpened) { // there is some video in the playlist
