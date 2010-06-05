@@ -362,7 +362,13 @@ namespace VideoPlayer {
 					stopCurrentVideo();
 				} else {
 					ProgressInnerReport = true;
-					progressSlider.Value = axVLC.input.Position * 10;
+                    try
+                    {
+                        progressSlider.Value = axVLC.input.Position * 10;
+                    }
+                    catch
+                    {
+                    }
 				}
 			}
 		}
