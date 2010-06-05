@@ -88,9 +88,9 @@ namespace VideoPlayer {
 			set {
 				_isPlaying = value;
 				if (value == false) {
-					play.Background = (ImageBrush) grid1.Resources["imageButtonPlay"];
+					play.Background = (ImageBrush)grid1.Resources["imageButtonPlay"];
 				} else {
-					play.Background = (ImageBrush) grid1.Resources["imageButtonPause"];
+					play.Background = (ImageBrush)grid1.Resources["imageButtonPause"];
 				}
 			}
 		}
@@ -174,15 +174,6 @@ namespace VideoPlayer {
 		}
 
 		/// <summary>
-		/// switches into the fullscreen on the button click
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void fullscreen_Click(object sender, RoutedEventArgs e) {
-			toggleFullscreen();
-		}
-
-		/// <summary>
 		/// sets the current video volume according to the new position of volumeSlider
 		/// </summary>
 		/// <param name="sender"></param>
@@ -201,7 +192,10 @@ namespace VideoPlayer {
 		private void progressSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
 			if (IsOpened && !IsStopped) {
 				if (!ProgressInnerReport) { // slider wasn't moved by inner program functionality
-					axVLC.input.Position = e.NewValue / 10;
+					try {
+						axVLC.input.Position = e.NewValue / 10;
+					} catch {
+					}
 				} else {
 					ProgressInnerReport = false;
 				}
@@ -214,43 +208,35 @@ namespace VideoPlayer {
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void wfh_KeyDown(object sender, KeyEventArgs e) {
-			if (e.Key == Key.Enter) 
-            {
-				toggleFullscreen();
-			} 
-            else if (e.Key == Key.Space) 
-            {
+			if (e.Key == Key.Space) {
 				togglePause();
-			} 
-            else if (e.Key == Key.M) 
-            {
+			} else if (e.Key == Key.M) {
 				axVLC.audio.mute = !axVLC.audio.mute;
-                if (axVLC.audio.mute) printMessage("Audio muted");
-                else printMessage("Audio unmuted");
-			} 
-            else if (e.Key == Key.C) 
-            {
-                axVLC.input.rate += 0.1f;
-                printMessage("Speed rate: " + Math.Floor(axVLC.input.rate*10) / 10 + "×");
-			} 
-            else if (e.Key == Key.X) 
-            {
-                if (axVLC.input.rate > 0.2) axVLC.input.rate -= 0.1f;
-                printMessage("Speed rate: " + Math.Floor(axVLC.input.rate*10)/10 + "×");
-			} 
-            else if (e.Key == Key.Left) 
-            {
-                int speed = 6000;
-                if (axVLC.input.Time > speed) axVLC.input.Time -= speed;
-                else axVLC.input.Time = 0;
-                printMessage("Position " + Math.Floor(Convert.ToDouble(speed / 1000)) + "s backward");
-			} 
-            else if (e.Key == Key.Right) 
-            {
-                int speed = 6000;
-                if (axVLC.input.Length > axVLC.input.Time + speed) axVLC.input.Time += speed;
-                else axVLC.input.Time = axVLC.input.Length;
-                printMessage("Position " + Math.Floor(Convert.ToDouble(speed / 1000)) + "s forward");
+				if (axVLC.audio.mute)
+					printMessage("Audio muted");
+				else
+					printMessage("Audio unmuted");
+			} else if (e.Key == Key.C) {
+				axVLC.input.rate += 0.1f;
+				printMessage("Speed rate: " + Math.Floor(axVLC.input.rate * 10) / 10 + "×");
+			} else if (e.Key == Key.X) {
+				if (axVLC.input.rate > 0.2)
+					axVLC.input.rate -= 0.1f;
+				printMessage("Speed rate: " + Math.Floor(axVLC.input.rate * 10) / 10 + "×");
+			} else if (e.Key == Key.Left) {
+				int speed = 6000;
+				if (axVLC.input.Time > speed)
+					axVLC.input.Time -= speed;
+				else
+					axVLC.input.Time = 0;
+				printMessage("Position " + Math.Floor(Convert.ToDouble(speed / 1000)) + "s backward");
+			} else if (e.Key == Key.Right) {
+				int speed = 6000;
+				if (axVLC.input.Length > axVLC.input.Time + speed)
+					axVLC.input.Time += speed;
+				else
+					axVLC.input.Time = axVLC.input.Length;
+				printMessage("Position " + Math.Floor(Convert.ToDouble(speed / 1000)) + "s forward");
 			}
 		}
 
@@ -289,7 +275,7 @@ namespace VideoPlayer {
 			LastPlayedID = id;
 			IsPlaying = true;
 			IsStopped = false;
-            printMessage("Playing");
+			printMessage("Playing");
 		}
 
 		/// <summary>
@@ -325,16 +311,7 @@ namespace VideoPlayer {
 			}
 		}
 
-		/// <summary>
-		/// toggles between fullscreen & window mode
-		/// </summary>
-		private void toggleFullscreen() {
-			if (IsPlaying) {
-				axVLC.video.toggleFullscreen();
-			}
-		}
-
-			#region print message handling
+		#region print message handling
 		/// <summary>
 		/// prints the message in the video screen and sets the timer to erase it
 		/// </summary>
@@ -379,20 +356,17 @@ namespace VideoPlayer {
 		}
 		#endregion
 
-			#region video guard events
+		#region video guard events
 		void videoGuard_ProgressChanged(object sender, ProgressChangedEventArgs e) {
 			if (IsOpened) {
 				if (progressSlider.Value > 0 && !axVLC.playlist.isPlaying && IsPlaying) { //handles the end of a video
 					stopCurrentVideo();
 				} else {
 					ProgressInnerReport = true;
-                    try
-                    {
-                        progressSlider.Value = axVLC.input.Position * 10;
-                    }
-                    catch
-                    {
-                    }
+					try {
+						progressSlider.Value = axVLC.input.Position * 10;
+					} catch {
+					}
 				}
 			}
 		}
@@ -404,7 +378,7 @@ namespace VideoPlayer {
 				Thread.Sleep(500);
 			}
 		}
-			#endregion
+		#endregion
 
 		#endregion
 
