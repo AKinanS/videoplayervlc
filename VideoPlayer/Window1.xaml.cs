@@ -235,19 +235,21 @@ namespace VideoPlayer {
 			} 
             else if (e.Key == Key.X) 
             {
-				axVLC.input.rate -= 0.1f;
+                if (axVLC.input.rate > 0.2) axVLC.input.rate -= 0.1f;
                 printMessage("Speed rate: " + Math.Floor(axVLC.input.rate*10)/10 + "×");
 			} 
             else if (e.Key == Key.Left) 
             {
                 int speed = 6000;
-                axVLC.input.Time -= speed;
+                if (axVLC.input.Time > speed) axVLC.input.Time -= speed;
+                else axVLC.input.Time = 0;
                 printMessage("Position " + Math.Floor(Convert.ToDouble(speed / 1000)) + "s backward");
 			} 
             else if (e.Key == Key.Right) 
             {
                 int speed = 6000;
-                axVLC.input.Time += speed;
+                if (axVLC.input.Length > axVLC.input.Time + speed) axVLC.input.Time += speed;
+                else axVLC.input.Time = axVLC.input.Length;
                 printMessage("Position " + Math.Floor(Convert.ToDouble(speed / 1000)) + "s forward");
 			}
 		}
@@ -287,6 +289,7 @@ namespace VideoPlayer {
 			LastPlayedID = id;
 			IsPlaying = true;
 			IsStopped = false;
+            printMessage("Playing");
 		}
 
 		/// <summary>

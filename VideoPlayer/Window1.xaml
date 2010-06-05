@@ -31,8 +31,7 @@
 		<Button Name="play" Height="26" Width="28" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,2" Click="play_Click" Focusable="False" Background="{DynamicResource imageButtonPlay}"/>
 		<Button Name="stop" Height="26" Width="28" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,40,2" Click="stop_Click" Focusable="False" Background="{StaticResource imageButtonStop}"/>
 		<Button Name="open" Height="26" Width="28" HorizontalAlignment="Center" Margin="0,0,-28,2" VerticalAlignment="Bottom" Click="open_Click" Focusable="False" Background="{StaticResource imageButtonOpen}"/>
-		<Button Name="fullscreen" Height="26" Width="20" HorizontalAlignment="Center" Margin="0,0,-80,2" VerticalAlignment="Bottom" Click="fullscreen_Click" Focusable="False" Background="{StaticResource imageButtonFullscreen}"/>
-
+		
 		<Slider Name="progressSlider" Height="23" HorizontalAlignment="Stretch" Margin="5,0,5,28" VerticalAlignment="Bottom" ValueChanged="progressSlider_ValueChanged" Focusable="False" IsEnabled="False"/>
 		<Slider Name="volumeSlider" Height="23" Width="100" HorizontalAlignment="Right" Margin="0,0,5,3" VerticalAlignment="Bottom" Value="5" ValueChanged="volumeSlider_ValueChanged" Focusable="False"/>
 		<Image Name="soundImage" Height="26" Width="30" HorizontalAlignment="Right" Margin="0,0,102,5" Source="Images/Sound.png" VerticalAlignment="Bottom" Focusable="False"/>
