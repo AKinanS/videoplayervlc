@@ -214,20 +214,41 @@ namespace VideoPlayer {
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void wfh_KeyDown(object sender, KeyEventArgs e) {
-			if (e.Key == Key.Enter) {
+			if (e.Key == Key.Enter) 
+            {
 				toggleFullscreen();
-			} else if (e.Key == Key.Space) {
+			} 
+            else if (e.Key == Key.Space) 
+            {
 				togglePause();
-			} else if (e.Key == Key.M) {
+			} 
+            else if (e.Key == Key.M) 
+            {
 				axVLC.audio.mute = !axVLC.audio.mute;
-			} else if (e.Key == Key.C) {
-				axVLC.input.rate += 0.1;
-			} else if (e.Key == Key.X) {
-				axVLC.input.rate -= 0.1;
-			} else if (e.Key == Key.Left) {
-				axVLC.input.Time -= 6000;
-			} else if (e.Key == Key.Right) {
-				axVLC.input.Time += 6000;
+                if (axVLC.audio.mute) printMessage("Audio muted");
+                else printMessage("Audio unmuted");
+			} 
+            else if (e.Key == Key.C) 
+            {
+                axVLC.input.rate += 0.1f;
+                printMessage("Speed rate: " + Math.Floor(axVLC.input.rate*10) / 10 + "×");
+			} 
+            else if (e.Key == Key.X) 
+            {
+				axVLC.input.rate -= 0.1f;
+                printMessage("Speed rate: " + Math.Floor(axVLC.input.rate*10)/10 + "×");
+			} 
+            else if (e.Key == Key.Left) 
+            {
+                int speed = 6000;
+                axVLC.input.Time -= speed;
+                printMessage("Position " + Math.Floor(Convert.ToDouble(speed / 1000)) + "s backward");
+			} 
+            else if (e.Key == Key.Right) 
+            {
+                int speed = 6000;
+                axVLC.input.Time += speed;
+                printMessage("Position " + Math.Floor(Convert.ToDouble(speed / 1000)) + "s forward");
 			}
 		}
 
