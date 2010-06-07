@@ -23,7 +23,7 @@
 
 		<Grid.ColumnDefinitions>
 		</Grid.ColumnDefinitions>
-		<WindowsFormsHost Name="wfh" Margin="0,0,0,52" Background="DarkSalmon" KeyDown="wfh_KeyDown">
+		<WindowsFormsHost Name="wfh" Margin="0,0,0,52" KeyDown="wfh_KeyDown">
 			<ax:AxVLCPlugin2 x:Name="axVLC"/>
 		</WindowsFormsHost>
 
