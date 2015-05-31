@@ -1,0 +1,1 @@
+Video player created in .NET with help of VLC library
